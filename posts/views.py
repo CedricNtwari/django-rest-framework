@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from .models import Post
 from .serializers import PostSerializer
 from django.http import Http404
+from drf_api.permissions import IsOwnerOrReadOnly
 
 
 class PostList(APIView):
@@ -35,7 +36,7 @@ class PostList(APIView):
 class PostDetail(APIView):
     serializer_class = PostSerializer
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly
     ]
 
     def get_object(self, pk):
