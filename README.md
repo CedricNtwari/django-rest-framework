@@ -21,6 +21,47 @@ This project is a backend API developed using Django and Django REST Framework (
 
 ### Access the API:
 
+### API Endpoints:
+
+### Authentication:
+
+- **POST** /admin/: Login a superuser.
+
+### Profiles
+
+- **GET /profiles/:** List all profiles.
+- **GET /profiles/<int:id>/:** Retrieve, update, or delete a specific profile.
+
+### Posts
+
+- **GET /posts/:** List all posts.
+- **POST /posts/:** Create a new post.
+- **GET /posts/<int:id>/:** Retrieve, update, or delete a specific post.
+
+### Comments
+
+- **GET /comments/:** List all comments.
+- **POST /comments/:** Create a new comment.
+- **GET /comments/<int:id>/:** Retrieve, update, or delete a specific comment.
+
+### Likes
+
+- **GET /likes/:** List all likes.
+- **POST /likes/:** Like a post.
+- **GET /likes/<int:id>/:** Retrieve or delete a like.
+
+### Followers
+
+- **GET /followers/:** List all followers.
+- **POST /followers/:** Follow a user.
+- **GET /followers/<int:id>/:** Retrieve or unfollow a user.
+
+### Permissions
+
+- Only authenticated users can create, update, or delete content.
+  Users can only modify their own content.
+  All users can view public content.
+
 To log into the Heroku toolbelt CLI:
 
 1. Log in to your Heroku account and go to _Account Settings_ in the menu under your avatar.
