@@ -16,6 +16,7 @@ import dj_database_url
 from dotenv import load_dotenv
 from django.db import connections
 from django.db.utils import OperationalError
+import re
 
 
 if os.path.exists('env.py'):
@@ -74,7 +75,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
 # Ensure CSRF Trusted Origins are set correctly
 CSRF_TRUSTED_ORIGINS = [
-    f"https://{os.environ.get('ALLOWED_HOST')}",
+    f"https://{host}" for host in os.environ.get('ALLOWED_HOSTS', '').split(',')
 ]
 
 
@@ -118,14 +119,20 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-if 'CLIENT_ORIGIN' in os.environ:
-     CORS_ALLOWED_ORIGINS = [
-         os.environ.get('CLIENT_ORIGIN')
-     ]
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+    ]
 else:
-     CORS_ALLOWED_ORIGIN_REGEXES = [
-         r"^https://.*\.gitpod\.io$",
-     ]
+    if 'CLIENT_ORIGIN' in os.environ:
+        CORS_ALLOWED_ORIGINS = [
+            os.environ.get('CLIENT_ORIGIN')
+        ]
+    else:
+        CORS_ALLOWED_ORIGIN_REGEXES = [
+            r"^https://.*\.gitpod\.io$",
+        ]
 
 CORS_ALLOW_CREDENTIALS = True
 
