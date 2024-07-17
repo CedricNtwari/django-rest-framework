@@ -26,8 +26,9 @@ This project is a backend API developed using Django and Django REST Framework (
 ### Authentication:
 
 - **POST** /admin/: Login a superuser.
+- **POST dj-rest-auth/registration/** register a user.
 - **POST /api-auth/login/:** Login a user.
-- **POST /api-auth/logout/:** Logout a user.
+- **POST /dj-rest-auth/logout/:** Logout a user.
 
 ### Profiles
 
