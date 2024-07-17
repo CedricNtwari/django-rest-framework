@@ -76,9 +76,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-# CSRF settings
+# Ensure CSRF Trusted Origins are set correctly
 CSRF_TRUSTED_ORIGINS = [
-    'https://drf-api-projet-0f572d5cbd12.herokuapp.com',
+    f"https://{os.environ.get('ALLOWED_HOST')}",
 ]
 
 
