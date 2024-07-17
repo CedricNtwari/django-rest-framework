@@ -1,1 +1,1 @@
-Documented the comment-out of the DEV environment variable in env.py for local development.
+Documented the comment-out of the DEV environment variable in env.py for local development
