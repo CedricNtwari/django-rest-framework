@@ -123,20 +123,15 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
     ]
 else:
-    if 'CLIENT_ORIGIN' in os.environ:
-        CORS_ALLOWED_ORIGINS = [
-            os.environ.get('CLIENT_ORIGIN')
-        ]
-    else:
-        CORS_ALLOWED_ORIGIN_REGEXES = [
-            r"^https://.*\.gitpod\.io$",
-        ]
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://.*\.gitpod\.io$",
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -180,20 +175,11 @@ if 'DEV' in os.environ:
 else:
     DATABASES = {
         'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
+            default=os.environ.get('DATABASE_URL')
         )
     }
     print("DB URL Connected:", DATABASES)
 
-
-db_conn = connections['default']
-try:
-    c = db_conn.cursor()
-    print("Database connection successful")
-except OperationalError as e:
-    print("Database connection failed:", e)
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
