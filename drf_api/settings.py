@@ -77,9 +77,13 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
 # Ensure CSRF Trusted Origins are set correctly
 CSRF_TRUSTED_ORIGINS = [
     f"https://{os.environ.get('ALLOWED_HOST')}",
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
 ]
 
 
@@ -112,9 +116,9 @@ INSTALLED_APPS = [
 ]
 SITE_ID = 1
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -124,16 +128,20 @@ MIDDLEWARE = [
 ]
 
 
-if 'CLIENT_ORIGIN' in os.environ:
+if 'CLIENT_ORIGIN_DEV' in os.environ:
     CORS_ALLOWED_ORIGINS = [
-        os.environ.get('CLIENT_ORIGIN')
+        os.environ.get('CLIENT_ORIGIN_DEV')
     ]
 else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^https://.*\.gitpod\.io$",
-    ]
+    if 'CLIENT_ORIGIN' in os.environ:
+        CORS_ALLOWED_ORIGINS = [
+            os.environ.get('CLIENT_ORIGIN')
+        ]
+    else:
+        CORS_ALLOWED_ORIGIN_REGEXES = [
+            r"^https://.*\.gitpod\.io$",
+        ]
 
-CORS_ALLOW_CREDENTIALS = True
 
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKE = 'my-refresh-token'
