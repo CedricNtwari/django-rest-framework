@@ -14,9 +14,6 @@ from pathlib import Path
 import os
 import dj_database_url
 from dotenv import load_dotenv
-from django.db import connections
-from django.db.utils import OperationalError
-import re
 
 
 if os.path.exists('env.py'):
