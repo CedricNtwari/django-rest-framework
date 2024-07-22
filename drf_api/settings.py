@@ -24,18 +24,19 @@ CLOUDINARY_STORAGE = {
 }
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# Load environment variables from .env file
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': [(
         'rest_framework.authentication.SessionAuthentication'
         if 'DEV' in os.environ
         else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    )],
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%d %b %Y',
     'DEFAULT_RENDERER_CLASSES': [
@@ -73,22 +74,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-]
 
 # Ensure CSRF Trusted Origins are set correctly
-
 CSRF_TRUSTED_ORIGINS = [
     f"https://{os.environ.get('ALLOWED_HOST')}",
     'http://localhost:3000',
@@ -123,9 +111,7 @@ INSTALLED_APPS = [
     'likes',
     'followers',
 ]
-
 SITE_ID = 1
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -152,6 +138,7 @@ else:
         CORS_ALLOWED_ORIGIN_REGEXES = [
             r"^https://.*\.gitpod\.io$",
         ]
+
 
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
@@ -184,12 +171,12 @@ WSGI_APPLICATION = 'drf_api.wsgi.application'
 
 
 if 'DEV' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+     DATABASES = {
+         'default': {
+             'ENGINE': 'django.db.backends.sqlite3',
+             'NAME': BASE_DIR / 'db.sqlite3',
+         }
+     }
 else:
     DATABASES = {
         'default': dj_database_url.config(
